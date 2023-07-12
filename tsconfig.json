@@ -16,10 +16,21 @@
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    "baseUrl": "./",
+    "paths": {
+      "@app/*": ["src/app/*"],
+      "@pages/*": ["src/pages/*"],
+      "@features/*": ["src/features/*"],
+      "@widgets/*": ["src/widgets/*"],
+      "@shared/*": ["src/shared/*"],
+      "@entities/*": ["src/entities/*"]
+    }
   },
-  "include": ["src"],
+
+  "include": ["src","vite.config.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

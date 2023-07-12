@@ -1,0 +1,1 @@
+declare const _APP_BASE_API_:string
