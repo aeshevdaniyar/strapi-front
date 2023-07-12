@@ -22,13 +22,14 @@ import { useForm } from "react-hook-form";
 import { FormData, schema } from "../model/types/schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useAuthByEmailMutation } from "../model/api/AuthByEmailApi";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { RouterPath } from "@app/providers/RouterProvider/config/routerConfig";
 export const AuthByEmail = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [authByEmailMutation, { isLoading, isError, error, isSuccess }] =
     useAuthByEmailMutation();
   const toast = useToast();
+  const navigate = useNavigate()
 
   const {
     register,
@@ -68,8 +69,10 @@ export const AuthByEmail = () => {
         duration: 9000,
         isClosable: true,
       });
+
+      navigate(RouterPath.MAIN)
     }
-  }, [isSuccess, toast]);
+  }, [isSuccess, navigate, toast]);
 
   return (
     <Flex

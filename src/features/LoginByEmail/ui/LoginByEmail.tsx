@@ -19,12 +19,13 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema, FormData } from "../model/types/schema";
 import { useEffect } from "react";
-import {Link as RouterLink} from 'react-router-dom'
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { RouterPath } from "@app/providers/RouterProvider/config/routerConfig";
 export const LoginByEmail = () => {
   const [loginByEmailMutation, { isLoading, isError, error, isSuccess }] =
     useLoginByEmailMutation();
   const toast = useToast();
+  const navigate = useNavigate();
   const {
     handleSubmit,
     register,
@@ -72,8 +73,9 @@ export const LoginByEmail = () => {
         duration: 9000,
         isClosable: true,
       });
+      navigate(RouterPath.MAIN);
     }
-  }, [isSuccess, toast]);
+  }, [isSuccess, navigate, toast]);
 
   return (
     <Flex
@@ -113,7 +115,13 @@ export const LoginByEmail = () => {
                 justify={"space-between"}
               >
                 <Checkbox>Remember me</Checkbox>
-                <Link as={RouterLink} to={RouterPath.REGISTER} color={"blue.400"}>Have account?</Link>
+                <Link
+                  as={RouterLink}
+                  to={RouterPath.REGISTER}
+                  color={"blue.400"}
+                >
+                  Have account?
+                </Link>
               </Stack>
               <Button
                 bg={"blue.400"}
