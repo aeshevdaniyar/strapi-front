@@ -8,13 +8,13 @@ import { ToastProvider } from "@chakra-ui/react";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <StoreProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <StoreProvider>
         <ThemeProvider>
           <ToastProvider />
           <App />
         </ThemeProvider>
-      </BrowserRouter>
-    </StoreProvider>
+      </StoreProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );

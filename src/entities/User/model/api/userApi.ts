@@ -1,12 +1,25 @@
-import { rtkApi } from "@shared/api/rtkApi";
 import { User } from "../types/User";
-
-export const userApi = rtkApi.injectEndpoints({
+import { baseQueryWithReAuth } from "@shared/api/rtk/baseQueryWithReAuth";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { userActions } from "../slice/userSlice";
+export const userApi = createApi({
+  reducerPath: "userApi",
+  baseQuery: baseQueryWithReAuth,
   endpoints: (build) => ({
-    getUser: build.query<User, void>({
-      query: () => "/users/me",
+    getMe: build.query<User, void>({
+      query: () => ({
+        url: "/users/me",
+      }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(userActions.setUserData(data))
+        } catch (e) {
+          console.log(e);
+        }
+      },
     }),
   }),
 });
 
-export const { useGetUserQuery } = userApi;
+export const { useGetMeQuery } = userApi;

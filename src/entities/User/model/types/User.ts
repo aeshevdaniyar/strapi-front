@@ -14,5 +14,7 @@ export interface AuthData {
   jwt: string;
 }
 export interface UserSchema {
-  authData?: AuthData;
+  userData?: User;
+  jwt?: string;
+  inited: boolean;
 }

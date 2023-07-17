@@ -22,8 +22,12 @@ import { useEffect } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { RouterPath } from "@app/providers/RouterProvider/config/routerConfig";
 export const LoginByEmail = () => {
-  const [loginByEmailMutation, { isLoading, isError, error, isSuccess }] =
-    useLoginByEmailMutation();
+  const [
+    loginByEmailMutation,
+    { isLoading, isError, error: loginError, isSuccess },
+  ] = useLoginByEmailMutation();
+  // eslint-disable-next-line 
+  const error = loginError as any;
   const toast = useToast();
   const navigate = useNavigate();
   const {
@@ -36,7 +40,7 @@ export const LoginByEmail = () => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      await loginByEmailMutation(data).unwrap();
+      await loginByEmailMutation(data);
     } catch (e) {
       toast({
         status: "error",

@@ -26,11 +26,14 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { RouterPath } from "@app/providers/RouterProvider/config/routerConfig";
 export const AuthByEmail = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [authByEmailMutation, { isLoading, isError, error, isSuccess }] =
-    useAuthByEmailMutation();
+  const [
+    authByEmailMutation,
+    { isLoading, isError, error: authError, isSuccess },
+  ] = useAuthByEmailMutation();
   const toast = useToast();
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
+  // eslint-disable-next-line
+  const error = authError as any;
   const {
     register,
     handleSubmit,
@@ -70,7 +73,7 @@ export const AuthByEmail = () => {
         isClosable: true,
       });
 
-      navigate(RouterPath.MAIN)
+      navigate(RouterPath.MAIN);
     }
   }, [isSuccess, navigate, toast]);
 

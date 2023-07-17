@@ -1,45 +1,30 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { AuthData, User, UserSchema } from "../types/User";
-import { authByEmailApi } from "@features/AuthByEmail";
-import { loginByEmailApi } from "@features/LoginByEmail";
-import { userApi } from "../api/userApi";
 
-const initialState: UserSchema = {};
+const initialState: UserSchema = {
+  inited: false,
+};
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
     logout: (state) => {
-      state.authData = undefined;
+      state.userData = undefined;
+      state.jwt = undefined;
       localStorage.removeItem("AUTH_TOKEN");
     },
-  },
 
-  extraReducers: (builder) => {
-    builder.addMatcher(
-      authByEmailApi.endpoints.authByEmail.matchFulfilled,
-      (state, action: PayloadAction<AuthData>) => {
-        state.authData = action.payload;
-        localStorage.setItem("AUTH_TOKEN", action.payload.jwt);
-      }
-    );
-    builder.addMatcher(
-      loginByEmailApi.endpoints.loginByEmail.matchFulfilled,
-      (state, action: PayloadAction<AuthData>) => {
-        state.authData = action.payload;
-        localStorage.setItem("AUTH_TOKEN", action.payload.jwt);
-      }
-    );
-    builder.addMatcher(
-      userApi.endpoints.getUser.matchFulfilled,
-      (state, action: PayloadAction<User>) => {
-        state.authData = {
-          user: action.payload,
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-          jwt: localStorage.getItem("AUTH_TOKEN") as string,
-        };
-      }
-    );
+    setAuthData: (state, action: PayloadAction<AuthData>) => {
+      state.userData = action.payload.user;
+      state.jwt = action.payload.jwt;
+      state.inited = true;
+      localStorage.setItem("AUTH_TOKEN", action.payload.jwt);
+    },
+
+    setUserData: (state, action: PayloadAction<User>) => {
+      state.inited = true;
+      state.userData = action.payload;
+    },
   },
 });
 
